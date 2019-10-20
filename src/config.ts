@@ -15,7 +15,3 @@ module.exports = {
         opponent: 1
     }
 };
-
-export class config {
-    
-}

@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 module.exports = {
     grid: {
         rows: 10
@@ -17,6 +15,3 @@ module.exports = {
         opponent: 1
     }
 };
-class config {
-}
-exports.config = config;
