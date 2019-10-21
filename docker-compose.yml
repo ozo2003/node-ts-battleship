@@ -10,8 +10,9 @@ services:
     command: pnpm run build
     ports:
       - 3000:80
-    default:
-      ipv4_address: 172.20.0.15
+    networks:
+      default:
+        ipv4_address: 172.20.0.15
 
   networks:
     default:
