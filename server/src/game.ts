@@ -1,14 +1,15 @@
 import * as config from "./config";
 import {Player} from "./player";
+import {Position} from "./objects/position";
 
 export class Game {
     public id: number;
     public current: number;
-    public winner: any;
+    public winner: number;
     public status: number;
-    public players: any;
+    public players: Player[];
 
-    constructor(id: number, p1: any, p2: any){
+    constructor(id: number, p1: string, p2: string){
         this.id = id;
         this.current = Math.floor(Math.random() * 2);
         this.winner = null;
@@ -16,7 +17,7 @@ export class Game {
         this.players = [new Player(p1), new Player(p2)];
     }
 
-    getPlayer(player: any) {
+    getPlayer(player: number) {
         return this.players[player].id;
     }
 
@@ -39,12 +40,12 @@ export class Game {
         this.current = this.current === config.players.player ? config.players.opponent : config.players.player;
     }
 
-    abort(player: any) {
+    abort(player: number) {
         this.status = config.status.gameover;
         this.winner = player === config.players.player ? config.players.opponent : config.players.player;
     }
 
-    shoot(position: any) {
+    shoot(position: Position) {
         let opponent = this.current === config.players.player ? config.players.opponent : config.players.player,
             index = position.y * config.grid.rows + position.x;
 
@@ -68,7 +69,7 @@ export class Game {
         return true;
     }
 
-    state(player: any, owner: any) {
+    state(player: number, owner: number) {
         return {
             turn: this.current === player,
             index: player === owner ? config.players.player : config.players.opponent,
@@ -76,7 +77,7 @@ export class Game {
         };
     }
 
-    getGrid(player: any, hide: boolean) {
+    getGrid(player: number, hide: boolean) {
         return {
             shots: this.players[player].shots,
             ships: hide ? this.players[player].getSunk() : this.players[player].ships

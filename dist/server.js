@@ -4,6 +4,7 @@ const express = require("express");
 const app = express();
 const config = require("./config");
 const game_1 = require("./game");
+const position_1 = require("./objects/position");
 let port = 7666;
 app.set("port", port);
 let users = {};
@@ -22,11 +23,12 @@ io.on("connection", function (socket) {
     };
     socket.join("waiting");
     socket.on("shot", function (position) {
+        let pos = new position_1.Position(position);
         let game = users[socket.id].in, opponent;
         if (game !== null) {
             if (game.current === users[socket.id].player) {
                 opponent = game.current === config.players.player ? config.players.opponent : config.players.player;
-                if (game.shoot(position)) {
+                if (game.shoot(pos)) {
                     check(game);
                     io.to(socket.id).emit("update", game.state(users[socket.id].player, opponent));
                     io.to(game.getPlayer(opponent)).emit("update", game.state(opponent, opponent));

@@ -2,6 +2,7 @@ import * as express from "express";
 const app = express();
 import * as config from "./config";
 import {Game} from "./game";
+import {Position} from "./objects/position";
 
 let port: number = 7666;
 app.set("port", port);
@@ -29,6 +30,7 @@ io.on("connection", function(socket: any) {
     socket.join("waiting");
 
     socket.on("shot", function(position: object) {
+        let pos = new Position(position);
         let game = users[socket.id].in,
             opponent;
 
@@ -36,7 +38,7 @@ io.on("connection", function(socket: any) {
             if (game.current === users[socket.id].player) {
                 opponent = game.current === config.players.player ? config.players.opponent : config.players.player;
 
-                if (game.shoot(position)) {
+                if (game.shoot(pos)) {
                     check(game);
 
                     io.to(socket.id).emit("update", game.state(users[socket.id].player, opponent));

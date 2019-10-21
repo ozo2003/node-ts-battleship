@@ -1,4 +1,4 @@
-let socket = io();
+let socket = io({transports: ['websocket'], upgrade: false});
 
 $(function() {
     socket.on("connect", function() {
