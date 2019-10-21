@@ -11,10 +11,14 @@ services:
     ports:
       - 3000:80
     networks:
-      default:
-        ipv4_address: 172.20.0.15
+      backend:
+        default:
+          ipv4_address: 172.20.0.15
 
-  networks:
-    default:
-      external:
-        name: proxy
+networks:
+  default:
+    external:
+      name: proxy
+  backend:
+    external:
+      name: backend
