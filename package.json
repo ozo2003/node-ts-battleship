@@ -9,10 +9,11 @@
     },
     "license": "MIT",
     "scripts": {
-        "build": "tsc -p server",
-        "watch-ts": "tsc -p server -w",
-        "watch-node": "nodemon dist/server.js",
-        "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript, Node\" -c \"yello.bold, cyan.bold\" \"pnpm run watch-ts\" \"pnpm run watch-node\""
+        "build": "tsc -p server; tsc -p client",
+        "watch-tss": "tsc -p server -w",
+        "watch-tsc": "tsc -p client -w",
+        "watch-node-server": "nodemon dist/server.js",
+        "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript, Node\" -c \"yello.bold, cyan.bold\" \"pnpm run watch-tss\" \"pnpm run watch-tsc\" \"pnpm run watch-node-server\""
     },
     "repository": {
         "type": "git",
