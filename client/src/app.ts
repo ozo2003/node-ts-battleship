@@ -239,8 +239,17 @@ const Game = (function() {
 
         adjacent.push(index - rows, index + rows);
 
-        index % rows !== 0 && adjacent.push(index - 1);
-        (index + 1) % rows !== 0 && adjacent.push(index + 1);
+        if (index % rows !== 0) {
+            adjacent.push(index - 1);
+            adjacent.push(index - 1 - rows);
+            adjacent.push(index - 1 + rows);
+        }
+
+        if ((index + 1) % rows !== 0) {
+            adjacent.push(index + 1);
+            adjacent.push(index + 1 - rows);
+            adjacent.push(index + 1 + rows);
+        }
 
         return adjacent;
     }

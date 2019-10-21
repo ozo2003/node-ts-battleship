@@ -2,33 +2,22 @@ let config = {
     progress: 1,
     gameover: 2
 };
-const Game = (function() {
-    let canvas = [],
-        context = [],
-        grid = [],
-        width = 361,
-        border = 1,
-        rows = 10,
-        space = (width - border * rows - border) / rows,
-        turn = false,
-        status,
-        hover = { x: -1, y: -1 },
-        player = 0,
-        opponent = 1;
+const Game = (function () {
+    let canvas = [], context = [], grid = [], width = 361, border = 1, rows = 10, space = (width - border * rows - border) / rows, turn = false, status, hover = { x: -1, y: -1 }, player = 0, opponent = 1;
     canvas[player] = document.getElementById("canvas-grid1");
     canvas[opponent] = document.getElementById("canvas-grid2");
     context[player] = canvas[player].getContext("2d");
     context[opponent] = canvas[opponent].getContext("2d");
-    canvas[opponent].addEventListener("mousemove", function(e) {
+    canvas[opponent].addEventListener("mousemove", function (e) {
         let pos = coordinates(e, canvas[opponent]);
         hover = square(pos.x, pos.y);
         draw(1);
     });
-    canvas[opponent].addEventListener("mouseout", function(e) {
+    canvas[opponent].addEventListener("mouseout", function (e) {
         hover = { x: -1, y: -1 };
         draw(1);
     });
-    canvas[opponent].addEventListener("click", function(e) {
+    canvas[opponent].addEventListener("click", function (e) {
         if (turn) {
             let pos = coordinates(e, canvas[1]);
             shot(square(pos.x, pos.y));
@@ -82,7 +71,8 @@ const Game = (function() {
                     .removeClass("opponent-turn")
                     .addClass("my-turn")
                     .html("It's your turn!");
-            } else {
+            }
+            else {
                 $("#turn-status")
                     .removeClass("my-turn")
                     .addClass("opponent-turn")
@@ -99,7 +89,8 @@ const Game = (function() {
                 .removeClass("my-turn")
                 .addClass("winner")
                 .html('You won! <a href="#" class="btn-leave-game">Play again</a>.');
-        } else {
+        }
+        else {
             $("#turn-status")
                 .removeClass("opponent-turn")
                 .removeClass("my-turn")
@@ -141,7 +132,8 @@ const Game = (function() {
             shipLength = space * ship.size + border * (ship.size - 1);
             if (!ship.vertical) {
                 context[index].fillRect(x, y, shipLength, shipWidth);
-            } else {
+            }
+            else {
                 context[index].fillRect(x, y, shipWidth, shipLength);
             }
         }
@@ -155,7 +147,8 @@ const Game = (function() {
                 if (grid[index].shots[i * rows + j] === 1) {
                     context[index].fillStyle = "#FF0000";
                     context[index].fillRect(squareX, squareY, space, space);
-                } else if (grid[index].shots[i * rows + j] === 2) {
+                }
+                else if (grid[index].shots[i * rows + j] === 2) {
                     context[index].fillStyle = "#00FF00";
                     context[index].fillRect(squareX, squareY, space, space);
                 }
@@ -174,7 +167,8 @@ const Game = (function() {
                                 let number;
                                 if (ship.vertical) {
                                     number = (y + n) * rows + x;
-                                } else {
+                                }
+                                else {
                                     number = y * rows + (x + n);
                                 }
                                 mark(index, number);
@@ -187,7 +181,7 @@ const Game = (function() {
     }
     function mark(index, element) {
         if (turn) {
-            getAdjacent(element).forEach(function(element) {
+            getAdjacent(element).forEach(function (element) {
                 if (grid[index].shots[element] == 0) {
                     grid[index].shots[element] = 1;
                     markIndex(element);
@@ -198,8 +192,16 @@ const Game = (function() {
     function getAdjacent(index) {
         let adjacent = [];
         adjacent.push(index - rows, index + rows);
-        index % rows !== 0 && adjacent.push(index - 1);
-        (index + 1) % rows !== 0 && adjacent.push(index + 1);
+        if (index % rows !== 0) {
+            adjacent.push(index - 1);
+            adjacent.push(index - 1 - rows);
+            adjacent.push(index - 1 + rows);
+        }
+        if ((index + 1) % rows !== 0) {
+            adjacent.push(index + 1);
+            adjacent.push(index + 1 - rows);
+            adjacent.push(index + 1 + rows);
+        }
         return adjacent;
     }
     return {
