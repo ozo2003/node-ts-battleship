@@ -3,7 +3,7 @@ version: "3.7"
 services:
   tsbs:
     container_name: tsbs
-    image: node:latest
+    build: .
     volumes:
       - .:/app
     working_dir: /app
