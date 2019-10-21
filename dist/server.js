@@ -29,9 +29,9 @@ io.on("connection", function (socket) {
             if (game.current === users[socket.id].player) {
                 opponent = game.current === config.players.player ? config.players.opponent : config.players.player;
                 if (game.shoot(pos)) {
-                    check(game);
                     io.to(socket.id).emit("update", game.state(users[socket.id].player, opponent));
                     io.to(game.getPlayer(opponent)).emit("update", game.state(opponent, opponent));
+                    check(game);
                 }
             }
         }
