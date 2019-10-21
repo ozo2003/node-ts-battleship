@@ -12,8 +12,8 @@ services:
       - 3000:80
     networks:
       backend:
-        default:
-          ipv4_address: 172.20.0.15
+      default:
+        ipv4_address: 172.20.0.15
 
 networks:
   default:
