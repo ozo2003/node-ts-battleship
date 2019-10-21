@@ -7,9 +7,9 @@ services:
     volumes:
       - .:/app
     working_dir: /app
-    command: pnpm run build
+    command: node dist/server.js
     ports:
-      - 3000:80
+      - 7666:7666
     networks:
       backend:
       default:

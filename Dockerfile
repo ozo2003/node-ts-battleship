@@ -2,10 +2,11 @@ FROM node:latest
 
 ENV DEBIAN_FRONTEND noninteractive
 
-COPY . /app
 WORKDIR /app
+COPY . .
 
 RUN npm i -g pnpm
 RUN npm i -g typescript
 
-RUN pnpm install
+RUN pnpm install --force
+EXPOSE 7666
