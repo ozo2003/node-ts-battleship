@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "outDir": "./../web/js",
+        "allowJs": true,
+        "target": "es6",
+        "skipLibCheck": true,
+        "baseUrl": ".",
+        "allowSyntheticDefaultImports": true,
+        "module": "commonjs",
+        "esModuleInterop": false,
+        "noImplicitAny": true,
+        "moduleResolution": "node",
+        "paths": {
+            "*": [
+                "../node_modules/",
+                "src/*"
+            ]
+        }
+    },
+    "include": [
+        "./src/**/*"
+    ]
+}

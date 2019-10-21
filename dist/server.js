@@ -9,7 +9,7 @@ app.set("port", port);
 let users = {};
 let counter = 1;
 const http = require("http").Server(app);
-app.use(express.static(__dirname + "/web"));
+app.use(express.static(__dirname + "/../web"));
 http.listen(port, function () {
     console.log("listening on *:" + port);
 });

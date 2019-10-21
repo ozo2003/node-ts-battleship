@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "outDir": "./dist",
+        "outDir": "./../dist",
         "allowJs": true,
         "target": "es6",
         "skipLibCheck": true,
@@ -12,7 +12,7 @@
         "moduleResolution": "node",
         "paths": {
             "*": [
-                "node_modules/",
+                "../node_modules/",
                 "src/*"
             ]
         }

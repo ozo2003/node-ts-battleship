@@ -1,5 +1,6 @@
 dependencies:
   '@types/express': 4.17.1
+  '@types/jquery': 3.3.31
   '@types/socket.io': 2.1.4
   concurrently: 5.0.0
   express: 4.17.1
@@ -36,6 +37,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-VfH/XCP0QbQk5B5puLqTLEeFgR8lfCJHZJKkInZ9mkYd+u8byX0kztXEQxEk4wZXJs8HI+7km2ALXjn4YKcX9w==
+  /@types/jquery/3.3.31:
+    dependencies:
+      '@types/sizzle': 2.3.2
+    dev: false
+    resolution:
+      integrity: sha512-Lz4BAJihoFw5nRzKvg4nawXPzutkv7wmfQ5121avptaSIXlDNJCUuxZxX/G+9EVidZGuO0UBlk+YjKbwRKJigg==
   /@types/mime/2.0.1:
     dev: false
     resolution:
@@ -55,6 +62,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-oprSwp094zOglVrXdlo/4bAHtKTAxX6VT8FOZlBKrmyLbNvE1zxZyJ6yikMVtHIvwP45+ZQGJn+FdXGKTozq0g==
+  /@types/sizzle/2.3.2:
+    dev: false
+    resolution:
+      integrity: sha512-7EJYyKTL7tFR8+gDbB6Wwz/arpGa0Mywk1TJbNzKzHtzbwVmY4HR9WqS5VV7dsBUKQmPNr192jHr/VpBluj/hg==
   /@types/socket.io/2.1.4:
     dependencies:
       '@types/node': 12.11.1
@@ -2564,6 +2575,7 @@ packages:
       integrity: sha1-AI4G2AlDIMNy28L47XagymyKxBk=
 specifiers:
   '@types/express': ^4.17.1
+  '@types/jquery': ^3.3.31
   '@types/socket.io': ^2.1.4
   concurrently: ^5.0.0
   express: ^4.17.1
