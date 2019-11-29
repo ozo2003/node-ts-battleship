@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const config = require("./config");
+const config = require("../config");
 const player_1 = require("./player");
 class Game {
     constructor(id, p1, p2) {
@@ -32,8 +32,8 @@ class Game {
         this.status = config.status.gameover;
         this.winner = player === config.players.player ? config.players.opponent : config.players.player;
     }
-    shoot(position) {
-        let opponent = this.current === config.players.player ? config.players.opponent : config.players.player, index = position.y * config.grid.rows + position.x;
+    shoot(coordinate) {
+        let opponent = this.current === config.players.player ? config.players.opponent : config.players.player, index = coordinate.y * config.grid.rows + coordinate.x;
         if (this.players[opponent].shots[index] === 0 && this.status === config.status.progress) {
             if (!this.players[opponent].shoot(index)) {
                 this.switch();
@@ -66,3 +66,4 @@ class Game {
     }
 }
 exports.Game = Game;
+//# sourceMappingURL=game.js.map

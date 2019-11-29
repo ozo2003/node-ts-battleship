@@ -1,10 +1,14 @@
 import * as express from "express";
 const app = express();
 import * as config from "./config";
-import {Game} from "./game";
-import {Position} from "./objects/position";
+import { Game } from "./object/game";
+import { User } from "./object/user";
+import { Coordinate } from "./object/coordinate";
+const dotenv = require("dotenv");
 
-let port: number = 7666;
+dotenv.config();
+
+let port: any = process.env.PORT || 7666;
 app.set("port", port);
 
 let users: any = {};
@@ -22,23 +26,18 @@ let io = require("socket.io")(http);
 io.on("connection", function(socket: any) {
     console.log(new Date().toISOString() + " ID " + socket.id + " connected.");
 
-    users[socket.id] = {
-        in: null,
-        player: null
-    };
-
     socket.join("waiting");
 
-    socket.on("shot", function(position: object) {
-        let pos = new Position(position);
-        let game = users[socket.id].in,
+    socket.on("shot", function(square: any) {
+        let coordinate = new Coordinate(square.x, square.y);
+        let game = users[socket.id].game,
             opponent;
 
         if (game !== null) {
             if (game.current === users[socket.id].player) {
                 opponent = game.current === config.players.player ? config.players.opponent : config.players.player;
 
-                if (game.shoot(pos)) {
+                if (game.shoot(coordinate)) {
                     io.to(socket.id).emit("update", game.state(users[socket.id].player, opponent));
                     io.to(game.getPlayer(opponent)).emit("update", game.state(opponent, opponent));
 
@@ -49,7 +48,7 @@ io.on("connection", function(socket: any) {
     });
 
     socket.on("mark", function(index: number) {
-        let game = users[socket.id].in,
+        let game = users[socket.id].game,
             opponent;
 
         if (game !== null) {
@@ -65,7 +64,7 @@ io.on("connection", function(socket: any) {
     });
 
     socket.on("leave", function() {
-        if (users[socket.id].in !== null) {
+        if (users[socket.id].game !== null) {
             leave(socket);
 
             socket.join("waiting");
@@ -95,10 +94,8 @@ function join() {
         players[config.players.player].join("game" + game.id);
         players[config.players.opponent].join("game" + game.id);
 
-        users[players[config.players.player].id].player = 0;
-        users[players[config.players.opponent].id].player = 1;
-        users[players[config.players.player].id].in = game;
-        users[players[config.players.opponent].id].in = game;
+        users[players[config.players.player].id] = new User(game, 0);
+        users[players[config.players.opponent].id] = new User(game, 1);
 
         io.to("game" + game.id).emit("join", game.id);
 
@@ -110,28 +107,28 @@ function join() {
 }
 
 function leave(socket: any) {
-    if (users[socket.id].in !== null) {
-        console.log(new Date().toISOString() + " ID " + socket.id + " left game ID " + users[socket.id].in.id);
+    if (typeof users[socket.id] !== "undefined") {
+        if (users[socket.id].game !== null) {
+            console.log(new Date().toISOString() + " ID " + socket.id + " left game ID " + users[socket.id].game.id);
 
-        socket.broadcast.to("game" + users[socket.id].in.id).emit("notification", {
-            message: "Opponent has left the game"
-        });
+            socket.broadcast.to("game" + users[socket.id].game.id).emit("notification", {
+                message: "Opponent has left the game"
+            });
 
-        if (users[socket.id].in.status !== config.status.gameover) {
-            users[socket.id].in.abort(users[socket.id].player);
-            check(users[socket.id].in);
+            if (users[socket.id].game.status !== config.status.gameover) {
+                users[socket.id].game.abort(users[socket.id].player);
+                check(users[socket.id].game);
+            }
+
+            socket.leave("game" + users[socket.id].game.id);
+            delete users[socket.id];
+
+            io.to(socket.id).emit("leave");
         }
-
-        socket.leave("game" + users[socket.id].in.id);
-
-        users[socket.id].in = null;
-        users[socket.id].player = null;
-
-        io.to(socket.id).emit("leave");
     }
 }
 
-function check(game: any) {
+function check(game: Game) {
     if (game.status === config.status.gameover) {
         console.log(new Date().toISOString() + " Game ID " + game.id + " ended.");
         io.to(game.getWinner()).emit("gameover", true);
@@ -142,9 +139,9 @@ function check(game: any) {
 function clients(room: string) {
     let clients = [];
 
-    for(let id in io.sockets.adapter.rooms[room].sockets){
+    for (let id in io.sockets.adapter.rooms[room].sockets) {
         clients.push(io.sockets.connected[id]);
     }
-    
+
     return clients;
 }

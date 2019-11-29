@@ -1,15 +1,16 @@
-import * as config from "./config";
-import {Player} from "./player";
-import {Position} from "./objects/position";
+import { IGame } from "interface/igame";
+import * as config from "../config";
+import { Player } from "./player";
+import { ICoordinate } from "interface/icoordinate";
 
-export class Game {
+export class Game implements IGame {
     public id: number;
     public current: number;
-    public winner: number;
+    public winner: number | null;
     public status: number;
     public players: Player[];
 
-    constructor(id: number, p1: string, p2: string){
+    constructor(id: number, p1: string, p2: string) {
         this.id = id;
         this.current = Math.floor(Math.random() * 2);
         this.winner = null;
@@ -45,9 +46,9 @@ export class Game {
         this.winner = player === config.players.player ? config.players.opponent : config.players.player;
     }
 
-    shoot(position: Position) {
+    shoot(coordinate: ICoordinate) {
         let opponent = this.current === config.players.player ? config.players.opponent : config.players.player,
-            index = position.y * config.grid.rows + position.x;
+            index = coordinate.y * config.grid.rows + coordinate.x;
 
         if (this.players[opponent].shots[index] === 0 && this.status === config.status.progress) {
             if (!this.players[opponent].shoot(index)) {

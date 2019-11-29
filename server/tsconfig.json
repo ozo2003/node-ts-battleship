@@ -10,6 +10,9 @@
         "esModuleInterop": false,
         "noImplicitAny": true,
         "moduleResolution": "node",
+        "strict": true,
+        "pretty": true,
+        "sourceMap": true,
         "paths": {
             "*": [
                 "../node_modules/",

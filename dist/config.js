@@ -15,3 +15,4 @@ exports.players = {
     player: 0,
     opponent: 1
 };
+//# sourceMappingURL=config.js.map

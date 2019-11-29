@@ -9,7 +9,7 @@ services:
     working_dir: /app
     command: node dist/server.js
     ports:
-      - 7666:7666
+      - ${PORT}:${PORT}
     networks:
       backend:
       default:
