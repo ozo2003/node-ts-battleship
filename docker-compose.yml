@@ -1,24 +1,19 @@
 version: "3.7"
 
 services:
-  tsbs:
-    container_name: tsbs
-    build: .
-    volumes:
-      - .:/app
-    working_dir: /app
-    command: node dist/server.js
-    ports:
-      - ${PORT}:${PORT}
-    networks:
-      backend:
-      default:
-        ipv4_address: 172.20.0.15
+    tsbs:
+        container_name: tsbs
+        build: .
+        volumes:
+            - .:/app
+        working_dir: /app
+        command: bash -c "npm install && node dist/server.js"
+        ports:
+            - ${PORT}:${PORT}
+        networks:
+            - frontend
 
 networks:
-  default:
-    external:
-      name: proxy
-  backend:
-    external:
-      name: backend
+    frontend:
+        external:
+            name: frontend
