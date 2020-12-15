@@ -16,4 +16,4 @@ services:
 networks:
     frontend:
         external:
-            name: frontend
+            name: proxy
