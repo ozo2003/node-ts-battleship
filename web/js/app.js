@@ -3,6 +3,19 @@ let config = {
     gameover: 2
 };
 const Game = (function() {
+    function startFireworks(Fireworks, container) {
+        const fireworks = new Fireworks(container, {
+          maxRockets: 3, // max # of rockets to spawn
+          rocketSpawnInterval: 150, // millisends to check if new rockets should spawn
+          numParticles: 100, // number of particles to spawn when rocket explodes (+0-10)
+          explosionMinHeight: 0.2, // percentage. min height at which rockets can explode
+          explosionMaxHeight: 0.9, // percentage. max height before a particle is exploded
+          explosionChance: 0.08 // chance in each tick the rocket will explode
+        })
+      
+        fireworks.start()
+    }
+   
     let canvas = [],
         context = [],
         grid = [],
@@ -81,12 +94,12 @@ const Game = (function() {
                 $("#turn-status")
                     .removeClass("opponent-turn")
                     .addClass("my-turn")
-                    .html("It's your turn!");
+                    .html("Select one blue field where you want to shoot!");
             } else {
                 $("#turn-status")
                     .removeClass("my-turn")
                     .addClass("opponent-turn")
-                    .html("Waiting for opponent.");
+                    .html("Waiting for opponent to shoot!");
             }
         }
     }
@@ -94,6 +107,7 @@ const Game = (function() {
         status = config.gameover;
         turn = false;
         if (winner) {
+            startFireworks(Fireworks, document.getElementById('game'))
             $("#turn-status")
                 .removeClass("opponent-turn")
                 .removeClass("my-turn")
@@ -122,9 +136,9 @@ const Game = (function() {
             for (let j = 0; j < rows; j++) {
                 x = j * (space + border) + border;
                 y = i * (space + border) + border;
-                context[index].fillStyle = "#ffffff";
+                context[index].fillStyle = "#4477FF";
                 if (j === hover.x && i === hover.y && index === 1 && grid[index].shots[i * rows + j] === 0 && turn) {
-                    context[index].fillStyle = "#4477FF";
+                    context[index].fillStyle = "#00FF00";
                 }
                 context[index].fillRect(x, y, space, space);
             }
@@ -132,7 +146,7 @@ const Game = (function() {
     }
     function drawShips(index) {
         let ship, shipWidth, shipLength;
-        context[index].fillStyle = "#232323";
+        context[index].fillStyle = "#424247";
         console.log(grid[index]);
         for (let i = 0; i < grid[index].ships.length; i++) {
             ship = grid[index].ships[i];
@@ -154,10 +168,10 @@ const Game = (function() {
                 squareX = j * (space + border) + border;
                 squareY = i * (space + border) + border;
                 if (grid[index].shots[i * rows + j] === 1) {
-                    context[index].fillStyle = "#FF0000";
+                    context[index].fillStyle = "#2A2A96";
                     context[index].fillRect(squareX, squareY, space, space);
                 } else if (grid[index].shots[i * rows + j] === 2) {
-                    context[index].fillStyle = "#00FF00";
+                    context[index].fillStyle = "#E33812";
                     context[index].fillRect(squareX, squareY, space, space);
                 }
             }
