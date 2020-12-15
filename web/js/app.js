@@ -122,9 +122,9 @@ const Game = (function() {
             for (let j = 0; j < rows; j++) {
                 x = j * (space + border) + border;
                 y = i * (space + border) + border;
-                context[index].fillStyle = "#ffffff";
+                context[index].fillStyle = "#4477FF";
                 if (j === hover.x && i === hover.y && index === 1 && grid[index].shots[i * rows + j] === 0 && turn) {
-                    context[index].fillStyle = "#4477FF";
+                    context[index].fillStyle = "#00FF00";
                 }
                 context[index].fillRect(x, y, space, space);
             }
@@ -132,7 +132,7 @@ const Game = (function() {
     }
     function drawShips(index) {
         let ship, shipWidth, shipLength;
-        context[index].fillStyle = "#232323";
+        context[index].fillStyle = "#424247";
         console.log(grid[index]);
         for (let i = 0; i < grid[index].ships.length; i++) {
             ship = grid[index].ships[i];
@@ -154,10 +154,10 @@ const Game = (function() {
                 squareX = j * (space + border) + border;
                 squareY = i * (space + border) + border;
                 if (grid[index].shots[i * rows + j] === 1) {
-                    context[index].fillStyle = "#FF0000";
+                    context[index].fillStyle = "#2A2A96";
                     context[index].fillRect(squareX, squareY, space, space);
                 } else if (grid[index].shots[i * rows + j] === 2) {
-                    context[index].fillStyle = "#00FF00";
+                    context[index].fillStyle = "#E33812";
                     context[index].fillRect(squareX, squareY, space, space);
                 }
             }
