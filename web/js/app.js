@@ -81,12 +81,12 @@ const Game = (function() {
                 $("#turn-status")
                     .removeClass("opponent-turn")
                     .addClass("my-turn")
-                    .html("It's your turn!");
+                    .html("Select one blue field where you want to shoot!");
             } else {
                 $("#turn-status")
                     .removeClass("my-turn")
                     .addClass("opponent-turn")
-                    .html("Waiting for opponent.");
+                    .html("Waiting for opponent to shoot!");
             }
         }
     }
